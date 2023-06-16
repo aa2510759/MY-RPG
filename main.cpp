@@ -50,6 +50,7 @@ void clr()
 	/* Move the cursor home */
 	SetConsoleCursorPosition(hStdOut, homeCoords);
 } // clears screen using native OS API
+
 void characterSelect()
 {
 	std::cout << "Choose character:\n\n";
@@ -695,12 +696,7 @@ Player setStats(std::vector<Weapon> baseWeapons)
 			myp2.setSpeed(myp2.getSpeed() + (inputPointsH));
 			c();
 
-
-
 		}
-
-
-
 
 		else if (input <= 0 || input >= 2)
 		{
@@ -715,15 +711,29 @@ Player setStats(std::vector<Weapon> baseWeapons)
 }
 Player enemyDamage(Player myp, std::vector<Enemy*> enemies)
 {
+
 	for (auto range : enemies)
 	{
+		int rng = grng(7);
 		float defenseMod = .5;
-		float enemyDamage = ((range->attack() - (myp.getDefense()*defenseMod)));
-		if (enemyDamage < 0)
-		{enemyDamage = 0;}
-		std::cout << range->getName() << " attacks! \n"
-			<< "They do " << enemyDamage << " damage! \n";
-		myp.setHealth(myp.getHealth() - enemyDamage); // makes you loose health
+
+		if (rng > 0)
+		{
+			float enemyDamage = ((range->attack() - (myp.getDefense() * defenseMod)));
+			if (enemyDamage < 0)
+			{
+				enemyDamage = 0;
+			}
+			std::cout << range->getName() << " attacks! \n"
+				<< "They do " << enemyDamage << " damage! \n";
+			myp.setHealth(myp.getHealth() - enemyDamage); // makes you loose health
+		}
+		else
+		{
+			cout << "Enemy missed..." << endl;
+		}
+		
+		
 	}
 	c();
 	return myp;
